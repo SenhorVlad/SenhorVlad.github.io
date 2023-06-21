@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: #33cc33;
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <img src="ufabc_logo.jpg" alt="UFABC Logo" class="logo">
+    <div class="title">UFABC - Processamento de Vídeo - Relatório 1</div>
+  </div>
+  <h1>Relatório:</h1>
+  <p>Por que a janela aberta não mostra a imagem colorida?</p>
+  <p><strong>R:</strong> Pois no programa, a linha "img = cv.imread('messi5.jpg',0)", na chamada do imread, foi passado o segundo argumento como 0. Pesquisando na documentação oficial do projeto, descobri que essa flag está relacionada a como a imagem deve ser lida. O número 0 passado é equivalente à constante "IMREAD_GRAYSCALE" do OpenCV, portanto a imagem é carregada em escala de cinza.</p>
+
+  <p>Modifique o programa para que as imagens sejam exibidas mais rapidamente e depois para que sejam exibidas mais lentamente. Responda qual a explicação da alteração de velocidade de exibição e apresente suas soluções detalhadamente.</p>
+  <p><strong>R:</strong> Primeiro, foi coletado o valor da velocidade digitado pelo usuário usando o método input. Em seguida, o valor de 0 a 10 foi dividido por 5.</p>
+  <pre>
+print("A velocidade é dada de 0 a 10, sendo 5 a velocidade normal.")
+velocidade = int(input("Digite a velocidade de 1 a 10: ")) / 5
+  </pre>
+  <p>Esse valor então foi inversamente multiplicado ao valor de 40ms do time.sleep:</p>
+  <pre>
+time.sleep((1/25.0) * (1/velocidade))
+  </pre>
+  <p>Desse modo, foi possível aumentar o valor do delay de espera para o próximo quadro com o fator multiplicativo.</p>
+
+  <p>Altere: modifique o programa para que uma imagem da câmera seja salva em um arquivo "foto1.png" no momento em que for clicada a tecla 'x' no teclado. Apresente o resultado e sua solução detalhadamente.</p>
+  <p><strong>R:</strong> Para realizar essa tarefa, foi adicionado um novo bloco de código que verificava a cada frame se a tecla 'x' foi pressionada. Se sim, esse frame era capturado e salvo. A base para a modificação no código foi retirada do arquivo L1_1_img.py.</p>
+
+  <p>Altere: modifique o programa para que as imagens gravadas estejam "normais" no arquivo de vídeo salvo e apresentem uma velocidade de exibição adequada. Apresente o resultado e sua solução detalhadamente.</p>
+  <p><strong>R:</strong> Nesse caso, foi necessário remover a linha que invertia as imagens. Uma função simples de inversão de plotagem (frame = cv.flip(frame, 0)) foi removida. Além disso, para alterar a velocidade do vídeo, foi necessário ajustar os frames por segundo no topo do arquivo Python.</p>
+
+  <p>Responda: se for necessário alterar a imagem, ou seja, realizar alguma operação de processamento nela, em que ponto dos quatro programas estudados isso deve ser realizado?</p>
+  <p><strong>R:</strong> As operações devem ser realizadas diretamente no frame, ou seja, elas devem ser feitas no momento em que o frame é capturado. Após realizar a operação no frame, avança-se para o próximo até que o vídeo seja completamente processado. Por exemplo, como fizemos com os filtros em imagens, o mesmo seria realizado frame a frame até que o vídeo inteiro recebesse o filtro.</p>
+</body>
+</html>
