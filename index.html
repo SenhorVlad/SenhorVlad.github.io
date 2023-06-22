@@ -20,7 +20,7 @@
       overflow-x: auto;
     }
     .navbar {
-      background-color: #33cc33;
+      background-color: rgb(0,90,60);
       padding: 10px;
       color: #fff;
       display: flex;
@@ -29,16 +29,40 @@
     .logo {
       width: 50px;
       margin-right: 10px;
+            
     }
     .title {
       font-weight: bold;
       font-size: 18px;
     }
+    
+    .imgs{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
+		height: 400px;
+		}
+	.imgs img{
+		max-width: 100%;
+		max-height: 100%
+		}
+	.video{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
+		height: 400px;
+		}
+	.video video{
+		max-width: 100%;
+		max-height: 100%
+		}
   </style>
 </head>
 <body>
   <div class="navbar">
-    <img src="ufabc_logo.jpg" alt="UFABC Logo" class="logo">
+    <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
     <div class="title">UFABC - Processamento de Vídeo - Relatório 1</div>
   </div>
   <h1>Relatório:</h1>
@@ -65,5 +89,37 @@ time.sleep((1/25.0) * (1/velocidade))
 
   <p>Responda: se for necessário alterar a imagem, ou seja, realizar alguma operação de processamento nela, em que ponto dos quatro programas estudados isso deve ser realizado?</p>
   <p><strong>R:</strong> As operações devem ser realizadas diretamente no frame, ou seja, elas devem ser feitas no momento em que o frame é capturado. Após realizar a operação no frame, avança-se para o próximo até que o vídeo seja completamente processado. Por exemplo, como fizemos com os filtros em imagens, o mesmo seria realizado frame a frame até que o vídeo inteiro recebesse o filtro.</p>
+  <p><strong>4 a - </strong>Obter com a webcam uma foto geral com TODOS os integrantes do GRUPO, sendo que cada um
+deve usar uma roupa de cor diferente, melhor se for com as cores Vermelho, Verde e Azul
+destacadas. Cuidem para a iluminação ficar boa. Podem usar qualquer editor de imagem caso
+necessitem “Compor” as fotos individuais para formar a foto geral.</p>
+<p><img src="grupo.jpg" alt="Grupo" class="imgs">
+<p><strong>4 b - </strong>Façam uma foto-montagem “Avatar”, juntando todos avatares numa única imagem. Meu
+“Avatar” por exemplo, é o Pikachu... A ordem dos avatares deve ser a mesma da foto geral.
+Podem usar qualquer editor de imagem para “Compor” as fotos individuais que cada um da
+equipe vai fornecer.</p>
+<p><img src="avatar.png" alt="Avatar" class="imgs">
+<p><strong>4 c - </strong>Filmem com a webcam DOIS vídeos com pessoas e DOIS videos com um objeto:</p>
+<p>i) um com mudanças lentas de movimento</p>
+<p>ii) e outro com mudanças rápidas de movimento.</p>
+<p>iii) Em cada um dos vídeos os membros do grupo DEVEM ser diferentes. Podem ser apenas dois
+membros, um em cada vídeo, e sugiro escolherem os que possuem as melhores câmeras.</p>
+<div class="video"><figure class="imgs">
+	<video src="saida2.mp4" controls></video>
+	<figcaption>Mudança lenta de movimento - objeto</figcaption>
+</figure></div>
+<div class="video"><figure class="imgs">
+	<video src="saida3.mp4" controls></video>
+	<figcaption>Mudança lenta de movimento - Pessoa</figcaption>
+</figure></div>
+<div class="video"><figure class="imgs">
+	<video src="saida.mp4" controls></video>
+	<figcaption>Mudança rápida de movimento - objeto</figcaption>
+</figure></div>
+<div class="video"><figure class="imgs">
+	<video src="saida4.mp4" controls></video>
+	<figcaption>Mudança rápida de movimento - Pessoa</figcaption>
+</figure>
+
 </body>
 </html>
