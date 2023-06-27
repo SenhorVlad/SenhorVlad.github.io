@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: rgb(0,90,60);
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .imgs {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
+        <span class="title">Processamento de Vídeo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Relatórios
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+              <li><a class="dropdown-item" href="relatorio1.html">Relatório 1</a></li>
+              <li><a class="dropdown-item" href="relatorio2.html">Relatório 2</a></li>
+              <li><a class="dropdown-item" href="relatorio3.html">Relatório 3</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="integrantesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Integrantes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="integrantesDropdown">
+              <li><a class="dropdown-item" href="Fernando.html">Fernando Cezar Resende Lopes</a></li>
+              <li><a class="dropdown-item" href="Muriel.html">Muriel da Costa Santos</a></li>
+              <li><a class="dropdown-item" href="Vinicius.html">Vinicius de Souza</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <p>	
+		<div  style="display: flex; flex-direction: column; align-items: center;">
+
+			<h1>Eu sou video com a UFABC!!!</h1>
+			<h2>Muriel Da costa santos</h2>
+			<img style="width: 400px;" src="muriel.jpg" >
+			<p style="width: 60%;">Sou o muriel costa, estudante de engenharia da informação da ufabc. 
+				Gosto de pedalar, assistir filmes e passear aos finais de semana.
+				Meu gosto musical é eclético.
+			</p>
+			<h3>abaixo tem um video que acho muito divertido</h3>
+			
+			<iframe width="420" height="315"src="https://www.youtube.com/embed/tgbNymZ7vqY">
+			</iframe>
+			<a href="https://www.youtube.com/embed/tgbNymZ7vqY" target="_blank">Se preferir você pode assistir o video diretamente no youtube, clicando neste link!</a> 
+			
+			<h2 style="width: 60%;">Abaixo tem o PDF do datasheet do regulador de tensão que mais utilizo para protótpos!</h2>
+			<object data="LM7805.pdf" type="application/pdf" width="60%" height="500px">
+			</object>
+			 
+		</div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

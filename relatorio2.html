@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: rgb(0,90,60);
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .imgs {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
+        <span class="title">Processamento de Vídeo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Relatórios
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+              <li><a class="dropdown-item" href="relatorio1.html">Relatório 1</a></li>
+              <li><a class="dropdown-item" href="relatorio2.html">Relatório 2</a></li>
+              <li><a class="dropdown-item" href="relatorio3.html">Relatório 3</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="integrantesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Integrantes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="integrantesDropdown">
+              <li><a class="dropdown-item" href="Fernando.html">Fernando Cezar Resende Lopes</a></li>
+              <li><a class="dropdown-item" href="Muriel.html">Muriel da Costa Santos</a></li>
+              <li><a class="dropdown-item" href="Vinicius.html">Vinicius de Souza</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container"><p>
+    <h1 class="text-center">Laboratório 2 – filtragem de imagem</h1>
+
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="center-content">
+          <h2>Filtro de média</h2>
+          <p>Foi utilizado o seguinte código abaixo para realizar a leitura da imagem do grupo e então, fazer a filtragem.</p>
+          <pre><code>import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+
+img = cv.imread('grupo.jpeg')
+assert img is not None, "file could not be read, check with os.path.exists()"
+
+kernel = np.ones((5,5), np.float32) / 25
+dst = cv.filter2D(img, -1, kernel)
+
+plt.subplot(121), plt.imshow(img), plt.title('Original')
+plt.xticks([]), plt.yticks([])
+plt.subplot(122), plt.imshow(dst), plt.title('Averaging')
+plt.xticks([]), plt.yticks([])
+plt.show()</code></pre>
+
+          <p>No código acima, é aplicado um filtro de média na foto do grupo (averaging filter). O filtro de média é um tipo de filtro passa-baixa que suaviza uma imagem, reduzindo as variações de intensidade entre os pixels vizinhos. Ele é amplamente utilizado para reduzir o ruído em uma imagem.</p>
+          <p>O filtro de média funciona calculando a média dos valores dos pixels dentro de uma janela e substituindo o valor do pixel central pela média calculada. Neste caso, é utilizado um kernel de tamanho 5x5, onde todos os valores são 1/25 (0.04), o que resulta em uma média ponderada dos valores dos pixels dentro da janela. A imagem original é suavizada, resultando em uma imagem filtrada com menos detalhes e bordas menos definidas. Isso pode ajudar a reduzir o ruído e imperfeições na imagem.</p>
+          <p>Na figura abaixo podemos ver o resultado (quase imperceptível, pois nossa imagem original não está cerrilhada.)</p>
+
+          <div class="center-content">
+            <img src="r2i1.png" alt="Imagem Averaging">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="center-content">
+          <h2>Filtro de Blurring</h2>
+          <p>O código abaixo foi utilizado para aplicar o filtro de blur na imagem do grupo. Fica mais perceptível o efeito aplicado se olharmos para o cabelo dos membros.</p>
+          <pre><code>import cv2 as cv
+import numpy as np
+from matplotlib import pyplot as plt
+
+imgo = cv.imread('grupo.jpeg')
+img = cv.cvtColor(imgo, cv.COLOR_BGR2RGB)
+assert img is not None, "file could not be read, check with os.path.exists()"
+
+median = cv.bilateralFilter(img, 9, 75, 75)
+
+plt.subplot(121), plt.imshow(img), plt.title('Original')
+plt.xticks([]), plt.yticks([])
+plt.subplot(122), plt.imshow(median), plt.title('Blurred')
+plt.xticks([]), plt.yticks([])
+plt.show()</code></pre>
+<div class="center-content">
+  <img src="r2i2.png" alt="Imagem Blurred">
+</div>
+
+          <p>O filtro de desfoque é aplicado na imagem utilizando a função cv.blur() do OpenCV. Neste caso, é utilizado um kernel de tamanho 5x5, especificado como (5,5), que é uma matriz de pesos que define como os valores dos pixels vizinhos são combinados para calcular o novo valor do pixel. No caso do filtro de desfoque, o kernel consiste em valores iguais, o que resulta em uma média ponderada dos valores dos pixels vizinhos.</p>
+          <p>Ao aplicar o filtro de desfoque à imagem, ocorre a suavização da mesma, resultando em uma imagem filtrada com menos detalhes e contraste reduzido. Essa técnica pode ser usada para remover o ruído presente na imagem ou para criar um efeito de desfoque intencional, como suavizar bordas e imperfeições.</p>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="center-content">
+          <h2>Filtro Gaussiano</h2>
+          <p>Para este exercício decidimos ousar e utilizar a técnica de fazer a captura e aplicação do filtro em tempo real, lendo a webcam através da função cv.VideoCapture(0).</p>
+
+          <p>Para aplicar o filtro foi aplicado o seguinte código:</p>
+          <pre><code>import numpy as np
+import cv2 as cv
+
+cap = cv.VideoCapture(0)
+if not cap.isOpened():
+    print("Cannot open camera")
+    exit()
+    
+while True:
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+    # if frame is read correctly ret is True
+    if not ret:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+    # Display the resulting frame
+    cv.imshow('frame', frame)
+    if cv.waitKey(1) == ord('x'):
+        image = cv.GaussianBlur(frame, (5,5), 0)
+        cv.imwrite('fotoGaussian.png', image)
+    if cv.waitKey(1) == ord('q'):
+        break
+
+# When everything done, release the capture
+cap.release()
+cv.destroyAllWindows()</code></pre>
+
+          <p>Na imagem abaixo podemos ver o filtro gaussiano aplicado à imagem da webcam de um dos integrantes da equipe.</p>
+
+          <div class="center-content">
+            <img src="r2i3.png" alt="Imagem Gaussian">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="center-content">
+          <h2>Median Blurring</h2>
+          <p>O filtro do median blurring utiliza o mesmo código do filtro de blurring, mudando apenas a aplicação do filtro:</p>
+          <pre><code>image = cv.medianBlur(frame, 5)
+cv.imwrite('fotoMedian.png', image)</code></pre>
+<div class="center-content">
+  <img src="r2i4.png" alt="Imagem Median">
+</div>
+
+          <p>Neste código está sendo aplicado um filtro de desfoque mediano (median blur).</p>
+          <p>A função cv.medianBlur() do OpenCV é utilizada para aplicar o filtro de desfoque mediano. Ela recebe dois parâmetros: a imagem de entrada (frame) e o tamanho do kernel (5 no exemplo).</p>
+          <p>A mediana é uma medida estatística que representa o valor central de um conjunto de dados ordenados. No contexto do filtro de desfoque mediano, a mediana é calculada para cada pixel considerando os valores dos pixels vizinhos dentro do kernel. Ao substituir o valor do pixel central pela mediana calculada, o filtro de desfoque mediano é capaz de remover ruídos de maneira eficaz, pois os valores extremos são descartados, enquanto os valores mais comuns e representativos prevalecem.</p>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="center-content">
+          <h2>Filtro Bilateral</h2>
+          <p>O filtro do median blurring utiliza o mesmo código do filtro de blurring, mudando apenas a aplicação do filtro:</p>
+          <pre><code>image = cv.bilateralFilter(frame, 9, 75, 75)</code></pre>
+          <div class="center-content">
+            <img src="r2i5.png" alt="Imagem Bilateral">
+          </div>
+
+          <p>A função cv.bilateralFilter() do OpenCV é utilizada para aplicar o filtro bilateral. Ela recebe quatro parâmetros: a imagem de entrada (frame), o tamanho do kernel, o desvio padrão do filtro espacial e o desvio padrão do filtro de intensidade.</p>
+          <p>O desvio padrão do filtro espacial controla a influência dos pixels vizinhos com base em sua distância espacial. Valores maiores de desvio padrão resultam em uma área de influência maior e uma suavização mais ampla.</p>
+          <p>O desvio padrão do filtro de intensidade controla a influência dos pixels vizinhos com base em suas diferenças de intensidade. Valores maiores de desvio padrão permitem uma suavização mais acentuada nas regiões com variações de intensidade.</p>
+          <p>O filtro bilateral é capaz de suavizar a imagem, removendo ruídos, enquanto preserva as bordas e detalhes importantes. Ele realiza isso combinando um filtro gaussiano espacial e um filtro gaussiano de intensidade. O filtro gaussiano espacial considera a proximidade espacial entre os pixels, enquanto o filtro gaussiano de intensidade leva em conta as diferenças de intensidade.</p>
+          <p>Como resultado, o filtro bilateral é eficaz na redução de ruídos sem causar uma perda significativa de detalhes e bordas na imagem. Ele é comumente usado em aplicações que requerem suavização de imagem, como remoção de ruído em fotografias ou processamento de imagens médicas.</p>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

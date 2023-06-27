@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: rgb(0,90,60);
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .imgs {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
+        <span class="title">Processamento de Vídeo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Relatórios
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+              <li><a class="dropdown-item" href="relatorio1.html">Relatório 1</a></li>
+              <li><a class="dropdown-item" href="relatorio2.html">Relatório 2</a></li>
+              <li><a class="dropdown-item" href="relatorio3.html">Relatório 3</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="integrantesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Integrantes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="integrantesDropdown">
+              <li><a class="dropdown-item" href="Fernando.html">Fernando Cezar Resende Lopes</a></li>
+              <li><a class="dropdown-item" href="Muriel.html">Muriel da Costa Santos</a></li>
+              <li><a class="dropdown-item" href="Vinicius.html">Vinicius de Souza</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <p>	
+    <h1>Relatório 1:</h1>
+    <p>Por que a janela aberta não mostra a imagem colorida?</p>
+    <p><strong>R:</strong> Pois no programa, a linha "img = cv.imread('messi5.jpg',0)", na chamada do imread, foi passado o segundo argumento como 0. Pesquisando na documentação oficial do projeto, descobri que essa flag está relacionada a como a imagem deve ser lida. O número 0 passado é equivalente à constante "IMREAD_GRAYSCALE" do OpenCV, portanto a imagem é carregada em escala de cinza.</p>
+
+    <p>Modifique o programa para que as imagens sejam exibidas mais rapidamente e depois para que sejam exibidas mais lentamente. Responda qual a explicação da alteração de velocidade de exibição e apresente suas soluções detalhadamente.</p>
+    <p><strong>R:</strong> Primeiro, foi coletado o valor da velocidade digitado pelo usuário usando o método input. Em seguida, o valor de 0 a 10 foi dividido por 5.</p>
+    <pre>
+print("A velocidade é dada de 0 a 10, sendo 5 a velocidade normal.")
+velocidade = int(input("Digite a velocidade de 1 a 10: ")) / 5
+    </pre>
+    <p>Esse valor então foi inversamente multiplicado ao valor de 40ms do time.sleep:</p>
+    <pre>
+time.sleep((1/25.0) * (1/velocidade))
+    </pre>
+    <p>Desse modo, foi possível aumentar o valor do delay de espera para o próximo quadro com o fator multiplicativo.</p>
+
+    <p>Altere: modifique o programa para que uma imagem da câmera seja salva em um arquivo "foto1.png" em disco.</p>
+    <pre>
+cv2.imwrite('foto1.png', frame)
+    </pre>
+
+    <p>Modifique o programa para que o vídeo de captura seja gravado em um arquivo de vídeo "output.avi" em disco.</p>
+    <pre>
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480))
+    </pre>
+    <pre>
+out.write(frame)
+    </pre>
+    <pre>
+out.release()
+    </pre>
+
+    <p>Quando no código são executadas as operações com as imagens, elas devem ser executadas em qual ponto dos quatro programas estudados?</p>
+    <p><strong>R:</strong> As operações devem ser realizadas diretamente no frame, ou seja, elas devem ser feitas no momento em que o frame é capturado. Após realizar a operação no frame, avança-se para o próximo até que o vídeo seja completamente processado. Por exemplo, como fizemos com os filtros em imagens, o mesmo seria realizado frame a frame até que o vídeo inteiro recebesse o filtro.</p>
+
+    <p>Obter com a webcam uma foto geral com TODOS os integrantes do GRUPO, sendo que cada um deve usar uma roupa de cor diferente, melhor se for com as cores Vermelho, Verde e Azul destacadas. Cuidem para a iluminação ficar boa. Podem usar qualquer editor de imagem caso necessitem “Compor” as fotos individuais para formar a foto geral.</p>
+    <img src="grupo.jpg" alt="Grupo" class="img-fluid">
+
+    <p>Façam uma foto-montagem “Avatar”, juntando todos avatares numa única imagem. Meu “Avatar” por exemplo, é o Pikachu... A ordem dos avatares deve ser a mesma da foto geral. Podem usar qualquer editor de imagem para “Compor” as fotos individuais que cada um da equipe vai fornecer.</p>
+    <img src="avatar.png" alt="Avatar" class="img-fluid">
+
+    <p>Filmem com a webcam DOIS vídeos com pessoas e DOIS videos com um objeto:</p>
+    <p>i) um com mudanças lentas de movimento</p>
+    <p>ii) e outro com mudanças rápidas de movimento.</p>
+    <p>iii) Em cada um dos vídeos os membros do grupo DEVEM ser diferentes. Podem ser apenas dois membros, um em cada vídeo, e sugiro escolherem os que possuem as melhores câmeras.</p>
+    <div class="embed-responsive embed-responsive-16by9" style="display: flex; flex-direction: column; align-items: center;">
+      <video class="embed-responsive-item" src="saida2.mp4" controls></video>
+      <p class="figcaption">Mudança lenta de movimento - objeto</p>
+    </div>
+    <div class="embed-responsive embed-responsive-16by9" style="display: flex; flex-direction: column; align-items: center;">
+      <video class="embed-responsive-item" src="saida3.mp4" controls></video>
+      <p class="figcaption">Mudança lenta de movimento - Pessoa</p>
+    </div>
+    <div class="embed-responsive embed-responsive-16by9" style="display: flex; flex-direction: column; align-items: center;">
+      <video class="embed-responsive-item" src="saida.mp4" controls></video>
+      <p class="figcaption">Mudança rápida de movimento - objeto</p>
+    </div>
+    <div class="embed-responsive embed-responsive-16by9" style="display: flex; flex-direction: column; align-items: center;">
+      <video class="embed-responsive-item" src="saida4.mp4" controls></video>
+      <p class="figcaption">Mudança rápida de movimento - Pessoa</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

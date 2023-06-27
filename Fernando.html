@@ -35,8 +35,28 @@
       font-weight: bold;
       font-size: 18px;
     }
-
-
+    .imgs {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
   </style>
 </head>
 <body>
@@ -77,42 +97,21 @@
   </nav>
   <div class="container">
     <p>	
-    <h1>Integrantes:</h1>
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="display: flex; flex-direction: column; align-items: center;">
-    <ol class="carousel-indicators">
-      <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
-      <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
-      <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <a href="Fernando.html"><img src="fernando.jpg" alt="Foto 1" style="height: 100%;height:400px;object-fit:contain" class="d-block w-100">
-        <div class="carousel-caption">
-          <h5>Fernando Cezar Resende Lopes</h5>
-        </div></a>
-      </div>
-      <div class="carousel-item">
-        <a href="Muriel.html"><img src="muriel.jpg" alt="Foto 2" style="height: 100%;height:400px;object-fit:contain" class="d-block w-100">
-        	<div class="carousel-caption">
-          <h5>Muriel da Costa Santos</h5>
-        </div></a>
-      </div>
-      <div class="carousel-item">
-        <a href="Vinicius.html"><img src="eu.jpeg" alt="Foto 3" style="height: 100%;height:400px;object-fit:contain" class="d-block w-100">
-        <div class="carousel-caption">
-          <h5>Vinicius de Souza</h5>
-        </div></a>
-      </div>
-    </div>
-    <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Anterior</span>
-    </a>
-    <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Próximo</span>
-    </a>
-  </div>
+		<div  style="display: flex; flex-direction: column; align-items: center;">
+
+			<h1>Um pouco sobre mim</h1>
+			<h2>Fernando Cezar Resende Lopes</h2>
+			<img style="width: 400px;" src="fernando.jpg" >
+			<p style="width: 60%;">Sou o Fernando Lopes, estudante de ciência da computação da ufabc. 
+				Gosto de tocar violão, assistir filmes, jogar videogame e tecnologia em geral.
+				Meu gosto musical é mais voltado ao rock e um pouco de indie.
+			</p>
+			<h3>Abaixo uma das músicas que eu gosto muito:</h3>
+			
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/4q9UafsiQ6k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+			<a href="https://www.youtube.com/watch?v=ZeFZ6EnHYKE&source_ve_path=MTc4NDI0" target="_blank">Se preferir você pode assistir o video diretamente no youtube, clicando neste link!</a> 
+				 
+		</div>
 
   </div>
 
