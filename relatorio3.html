@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório 3</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: rgb(0,90,60);
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .imgs {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
+        <span class="title">Processamento de Vídeo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Relatórios
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+              <li><a class="dropdown-item" href="relatorio1.html">Relatório 1</a></li>
+              <li><a class="dropdown-item" href="relatorio2.html">Relatório 2</a></li>
+              <li><a class="dropdown-item" href="relatorio3.html">Relatório 3</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="integrantesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Integrantes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="integrantesDropdown">
+              <li><a class="dropdown-item" href="Fernando.html">Fernando Cezar Resende Lopes</a></li>
+              <li><a class="dropdown-item" href="Muriel.html">Muriel da Costa Santos</a></li>
+              <li><a class="dropdown-item" href="Vinicius.html">Vinicius de Souza</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container"><p>
+    <h1 class="text-center">Laboratório 3 - Espaço de cores</h1>
+
+    <p><strong>(a) Modifique este programa para salvar as imagens da webcam, da máscara e do resultado, ao toque de uma tecla.</strong></p>
+    <p>O nosso código realiza a detecção de objetos na cor azul em tempo real, capturando frames de um dispositivo de vídeo (como uma webcam) e exibindo três janelas: a imagem original, a máscara resultante da segmentação dos pixels azuis e o resultado final da combinação da máscara com a imagem original.</p>
+    <p>Após importar as bibliotecas necessárias (OpenCV e NumPy) e inicializar a captura de vídeo usando cv.VideoCapture(0), o código entra em um loop while que será executado até que a tecla 'Esc' seja pressionada. Dentro do loop, cada frame é lido com cap.read(). Em seguida, o espaço de cores do frame é convertido de BGR para HSV utilizando cv.cvtColor(), pois a detecção de cores é mais eficiente nesse espaço.</p>
+    <p>Em seguida, são definidos os valores de limite inferior (lower_blue) e superior (upper_blue) para a detecção da cor azul no espaço de cores HSV. Esses valores são especificados como arrays NumPy contendo os valores mínimos e máximos dos componentes de matiz (hue), saturação (saturation) e valor (value). No exemplo fornecido, a faixa de azul está definida entre 110-130 para a matiz, 50-255 para a saturação e 50-255 para o valor.</p>
+    <p>A imagem HSV é então mascarada utilizando cv.inRange(), que cria uma máscara binária em que os pixels na faixa especificada de azul são definidos como brancos (255) e os demais como pretos (0). Essa máscara é usada em conjunto com a imagem original para realizar uma operação de bitwise AND usando cv.bitwise_and(), resultando em uma imagem final em que apenas os pixels azuis são preservados, enquanto o resto é definido como preto.</p>
+
+    <pre><code>import cv2 as cv
+        import numpy as np
+        cap = cv.VideoCapture(0)
+        while(1):
+         # Take each frame
+         _, frame = cap.read()
+         # Convert BGR to HSV
+         hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
+         # define range of blue color in HSV
+         lower_blue = np.array([110,50,50])
+         upper_blue = np.array([130,255,255])
+         # Threshold the HSV image to get only blue colors
+         mask = cv.inRange(hsv, lower_blue, upper_blue)
+         # Bitwise-AND mask and original image
+         res = cv.bitwise_and(frame,frame, mask= mask)
+         cv.imshow('frame',frame)
+         cv.imshow('mask',mask)
+         cv.imshow('res',res)
+         k = cv.waitKey(5) & 0xFF
+         if k == 27:
+             break
+         if k == 120:
+             cv.imwrite('foto1Relatorio3.png',frame)
+             cv.imwrite('foto2Relatorio3.png',mask)
+             cv.imwrite('foto3Relatorio3.png',res)
+        
+        cv.destroyAllWindows()
+        </code></pre>
+        <div class="center-content">
+            <img src="r3i1.png" alt="Imagem Averaging">
+          </div><p>
+
+    <p><strong>(b) Modifique novamente, para realizar o rastreamento de uma cor e aplicar na imagem resultante (imagem depois do mascaramento) um dos filtros da aula anterior, na imagem de entrada da webcam, tal que a imagem fique visualmente agradável.</strong></p>
+    <p>Este código é uma versão modificada do código anterior, adicionando um filtro bilateral às imagens processadas antes de exibi-las ou salvá-las.</p>
+    <p>Após a detecção dos objetos azuis, são aplicados os filtros bilaterais usando cv.bilateralFilter(). Esses filtros são utilizados para suavizar as imagens, preservando as bordas e reduzindo o ruído. As imagens filtradas (framebi, maskbi e resbi) são então exibidas nas respectivas janelas.</p>
+    <p>O restante do código permanece o mesmo, onde as janelas são exibidas, a captura de teclas é realizada e, se a tecla 'x' for pressionada, as imagens filtradas são salvas em arquivos.</p>
+    
+    <pre><code>
+        import cv2 as cv
+        import numpy as np
+        cap = cv.VideoCapture(0)
+        while(1):
+         # Take each frame
+         _, frame = cap.read()
+         # Convert BGR to HSV
+         hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
+         # define range of blue color in HSV
+         lower_blue = np.array([110,50,50])
+         upper_blue = np.array([130,255,255])
+         # Threshold the HSV image to get only blue colors
+         mask = cv.inRange(hsv, lower_blue, upper_blue)
+         # Bitwise-AND mask and original image
+         res = cv.bitwise_and(frame,frame, mask= mask)
+         cv.imshow('frame',frame)
+         cv.imshow('mask',mask)
+         cv.imshow('res',res)
+         framebi = cv.bilateralFilter(frame,9,75,75)
+         maskbi = cv.bilateralFilter(mask,9,75,75)
+         resbi = cv.bilateralFilter(res,9,75,75)
+         k = cv.waitKey(5) & 0xFF
+         if k == 27:
+             break
+         if k == 120:
+             cv.imwrite('foto1Relatorio3bilateral.png',framebi)
+             cv.imwrite('foto2Relatorio3bilateral.png',maskbi)
+             cv.imwrite('foto3Relatorio3bilateral.png',resbi)
+        
+        cv.destroyAllWindows()
+        
+
+    </code></pre>
+
+    <p><strong>(c) Adicionalmente, modifique o programa para gravar um vídeo dos experimentos de rastreamento.</strong></p>
+    <p>O código abaixo salva o vídeo da webcam.</p>
+
+    <pre><code>
+        import cv2 as cv
+        import numpy as np
+        cap = cv.VideoCapture(0)
+        
+        width = cap.get(cv.CAP_PROP_FRAME_WIDTH)   # float
+        
+        height = cap.get(cv.CAP_PROP_FRAME_HEIGHT) # float
+        
+        fps = 30.0
+        
+        
+        fourcc = cv.VideoWriter_fourcc(*'XVID')
+        out = cv.VideoWriter('saida4.avi', fourcc, fps, (int(width),int(height)) )
+        
+        while(1):
+         # Take each frame
+         _, frame = cap.read()
+         # Convert BGR to HSV
+         hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
+         # define range of blue color in HSV
+         lower_blue = np.array([110,50,50])
+         upper_blue = np.array([130,255,255])
+         # Threshold the HSV image to get only blue colors
+         mask = cv.inRange(hsv, lower_blue, upper_blue)
+         # Bitwise-AND mask and original image
+         res = cv.bitwise_and(frame,frame, mask= mask)
+         cv.imshow('frame',frame)
+         cv.imshow('mask',mask)
+         cv.imshow('res',res)
+         k = cv.waitKey(5) & 0xFF
+         out.write(frame)
+         if k == 27:
+             break
+        
+        cv.destroyAllWindows()      
+    </code></pre>
+    <div class="center-content">
+        <img src="r3i2.png" alt="Video proof">
+      </div><p>
+
+    <p><strong>3) Exercício em equipe: Tente encontrar uma maneira de extrair mais de um objeto colorido, por exemplo, extraia objetos vermelhos, azuis e verdes simultaneamente.</strong></p>
+    <p>Neste programa, criamos 3 máscaras diferentes para as cores verde, vermelho e azul.</p>
+    <p>Definimos os limites superiores e inferiores no range do espaço de cores HSV de cada máscara e depois juntamos em uma máscara só. Esses valores são definidos como matrizes NumPy.</p>
+
+    <pre><code>
+        import cv2
+        import numpy as np
+        
+        cap = cv2.VideoCapture(0)
+        
+        while(1):
+        
+            _, frame = cap.read()
+        
+            # Convert BGR to HSV
+            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        
+            lower_blue = np.array([110,50,50])
+            upper_blue = np.array([130,255,255])
+        
+            lower_green = np.array([50, 50, 120])
+            upper_green = np.array([70, 255, 255])
+            
+           
+            lower_red = np.array([0,50,50])
+            upper_red = np.array([10,255,255])
+            mask0 = cv2.inRange(hsv, lower_red, upper_red)
+        
+            lower_red = np.array([170,50,50])
+            upper_red = np.array([180,255,255])
+            mask1 = cv2.inRange(hsv, lower_red, upper_red)
+            
+            #red_mask = mask0+mask1
+            
+            lower = np.array([155,25,0])
+            upper = np.array([179,255,255])
+            red_mask = cv2.inRange(hsv, lower, upper)
+            
+            
+            green_mask = cv2.inRange(hsv, lower_green, upper_green)
+            blue_mask = cv2.inRange(hsv, lower_blue, upper_blue)
+            mask = blue_mask + green_mask + red_mask
+        
+            res = cv2.bitwise_and(frame,frame, mask= mask)
+        
+            cv2.imshow('frame',frame)
+            cv2.imshow('mask',mask)
+            cv2.imshow('res',res)
+            k = cv2.waitKey(5) & 0xFF
+            if k == 27:
+                break
+        
+        cv2.destroyAllWindows()        
+
+    </code></pre>
+    <p>No resultado abaixo é possível observar o rastreamento dos objetos por cor funcionando para as cores selecionadas.</p>   
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
