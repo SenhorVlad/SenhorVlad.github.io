@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: rgb(0,90,60);
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .imgs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 400px;
+      margin: 10px;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
+        <span class="title">Processamento de Vídeo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Relatórios
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+              <li><a class="dropdown-item" href="relatorio1.html">Relatório 1</a></li>
+              <li><a class="dropdown-item" href="relatorio2.html">Relatório 2</a></li>
+              <li><a class="dropdown-item" href="relatorio3.html">Relatório 3</a></li>
+              <li><a class="dropdown-item" href="relatorio4.html">Relatório 4</a></li>
+              <li><a class="dropdown-item" href="relatorio5.html">Relatório 5</a></li>
+              <li><a class="dropdown-item" href="relatorio6.html">Relatório 6</a></li>
+              <li><a class="dropdown-item" href="relatorio7.html">Relatório 7</a></li>
+              <li><a class="dropdown-item" href="relatorio8.html">Relatório 8</a></li>
+              <li><a class="dropdown-item" href="relatorio9.html">Relatório 9</a></li>
+              <li><a class="dropdown-item" href="relatorio10.html">Relatório 10</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="projfinal.html">Projeto Final</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="integrantesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Integrantes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="integrantesDropdown">
+              <li><a class="dropdown-item" href="Fernando.html">Fernando Cezar Resende Lopes</a></li>
+              <li><a class="dropdown-item" href="Muriel.html">Muriel da Costa Santos</a></li>
+              <li><a class="dropdown-item" href="Vinicius.html">Vinicius de Souza</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <h1 class="text-center">Laboratório 4 – Histogramas e Limiarização</h1>
+    <p><strong>(1) Desenvolva um programa para fazer a leitura de sua imagem, convertendo para tons de cinza, calcular o histograma, e realizar a equalização do histograma pelo método mais simples. Ao toque de uma tecla, o programa deve salvar a imagem de entrada em cinza e a imagem equalizada, através de comando OpenCV. Salve também as imagens dos gráficos de histograma antes e depois da equalização, através de comando do matplotlib.</strong></p>
+    <pre><code>import cv2
+      import numpy as np
+      import matplotlib.pyplot as plt
+      
+      def equalize_histogram(image):
+          # Calcula o histograma da imagem de entrada
+          histogram, _ = np.histogram(image.flatten(), 256, [0, 256])
+      
+          # Calcula a função de distribuição acumulada (CDF)
+          cdf = histogram.cumsum()
+          cdf_normalized = cdf * histogram.max() / cdf.max()
+      
+          # Equalização do histograma
+          equalized_image = np.interp(image.flatten(), range(0, 256), cdf_normalized).reshape(image.shape)
+      
+          return equalized_image.astype(np.uint8)
+      
+      # Leitura da imagem
+      image_path = 'muriel.jpg'
+      image = cv2.imread(image_path)
+      
+      # Conversão para tons de cinza
+      gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+      
+      # Cálculo do histograma da imagem em tons de cinza
+      hist_before_eq, _ = np.histogram(gray_image.flatten(), 256, [0, 256])
+      
+      # Equalização do histograma
+      equalized_image = equalize_histogram(gray_image)
+      
+      # Cálculo do histograma da imagem equalizada
+      hist_after_eq, _ = np.histogram(equalized_image.flatten(), 256, [0, 256])
+      
+      # Salva a imagem em tons de cinza
+      cv2.imwrite('gray_image.jpg', gray_image)
+      
+      # Salva a imagem equalizada
+      cv2.imwrite('equalized_image.jpg', equalized_image)
+      
+      # Plota o histograma antes e depois da equalização
+      plt.figure(figsize=(10, 5))
+      plt.subplot(1, 2, 1)
+      plt.plot(hist_before_eq, color='b')
+      plt.title('Histograma antes da equalização')
+      plt.subplot(1, 2, 2)
+      plt.plot(hist_after_eq, color='r')
+      plt.title('Histograma depois da equalização')
+      plt.tight_layout()
+      plt.savefig('histogram_plots.png')
+      plt.show()
+      </code></pre>
+    <p>Esse código realiza a equalização do histograma de uma imagem em tons de cinza. O processo de equalização do histograma é uma técnica de processamento de imagem que visa melhorar o contraste da imagem, redistribuindo os valores de intensidade dos pixels.</p>
+    <p>A função equalize_histogram recebe uma imagem em tons de cinza como entrada. Ela calcula o histograma da imagem original e, em seguida, calcula a função de distribuição acumulada (CDF). A CDF normalizada é utilizada para equalizar o histograma, mapeando os valores de intensidade dos pixels da imagem original para novos valores equalizados. A imagem equalizada é retornada como saída.</p>
+    <p>O código lê uma imagem colorida usando o OpenCV (cv2.imread) e a converte para tons de cinza (cv2.cvtColor). Em seguida, calcula o histograma da imagem em tons de cinza original (np.histogram) e a equaliza usando a função equalize_histogram.</p>
+    <p>O histograma da imagem equalizada também é calculado.</p>
+    <p>As imagens em tons de cinza original e equalizada são salvas em arquivos separados usando cv2.imwrite. Além disso, o código cria um gráfico com os histogramas antes e depois da equalização usando a biblioteca matplotlib.</p>
+    <p>O gráfico é salvo em um arquivo e exibido na tela.</p>
+    <div class="center-content">
+      <div class="imgs">
+        <img src="r4i1.png" alt="histogram">
+        <img src="r4i2.png" alt="histogram">
+      </div>
+    </div>
+    <p><strong>(2) Outro programa modificando o item (1), agora fazendo a leitura de imagem da webcam.</strong></p>
+    <pre><code>import cv2
+      import numpy as np
+      import matplotlib.pyplot as plt
+      
+      def equalize_histogram(image):
+          # Calcula o histograma da imagem de entrada
+          histogram, _ = np.histogram(image.flatten(), 256, [0, 256])
+      
+          # Calcula a função de distribuição acumulada (CDF)
+          cdf = histogram.cumsum()
+          cdf_normalized = cdf * histogram.max() / cdf.max()
+      
+          # Equalização do histograma
+          equalized_image = np.interp(image.flatten(), range(0, 256), cdf_normalized).reshape(image.shape)
+      
+          return equalized_image.astype(np.uint8)
+          
+          
+      # Inicializa a captura de vídeo da webcam
+      video_capture = cv2.VideoCapture(0)
+      
+      while True:
+          # Lê um frame da captura de vídeo
+          ret, frame = video_capture.read()
+      
+          # Converte o frame para tons de cinza
+          gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+      
+          # Equalização do histograma
+          equalized_frame = equalize_histogram(gray_frame)
+      
+          # Exibe a imagem em tons de cinza e a imagem equalizada
+          cv2.imshow('Gray Image', gray_frame)
+          cv2.imshow('Equalized Image', equalized_frame)
+      
+          # Encerra o loop ao pressionar a tecla 'q'
+          if cv2.waitKey(1) & 0xFF == ord('s'):
+           # Cálculo do histograma da imagem equalizada
+           hist_after_eq, _ = np.histogram(equalized_frame.flatten(), 256, [0, 256])
+           hist_before_eq, _ = np.histogram(gray_frame.flatten(), 256, [0, 256])
+           # Salva a imagem em tons de cinza
+           cv2.imwrite('gray_image.jpg', gray_frame)
+           # Salva a imagem equalizada
+           cv2.imwrite('equalized_image.jpg', equalized_frame)
+           # Plota o histograma antes e depois da equalização
+           plt.figure(figsize=(10, 5))
+           plt.subplot(1, 2, 1)
+           plt.plot(hist_before_eq, color='b')
+           plt.title('Histograma antes da equalização')
+           plt.subplot(1, 2, 2)
+           plt.plot(hist_after_eq, color='r')
+           plt.title('Histograma depois da equalização')
+           plt.tight_layout()
+           plt.savefig('histogram_plots.png')
+           plt.show()
+           break
+      
+      # Libera a captura de vídeo e fecha as janelas
+      video_capture.release()
+      cv2.destroyAllWindows()
+      </code></pre>
+      <p>Este código é um exemplo de equalização de histograma em tempo real usando a biblioteca OpenCV (cv2). O objetivo é capturar imagens da webcam, converter cada frame para tons de cinza, equalizar o histograma desse frame e exibir a imagem original em tons de cinza e a imagem equalizada em janelas separadas.</p>
+      <p>Aqui está uma explicação passo a passo do código:</p>
+      <ol>
+          <li>O código importa as bibliotecas necessárias: <code>cv2</code> (OpenCV) para processamento de imagem, <code>numpy</code> para manipulação de arrays e <code>matplotlib.pyplot</code> para plotar o histograma.</li>
+          <li>Em seguida, há a definição de uma função chamada <code>equalize_histogram</code> que recebe uma imagem como entrada. Essa função calcula o histograma da imagem, calcula a função de distribuição acumulada (CDF) e equaliza o histograma da imagem usando a função <code>np.interp</code>. A imagem equalizada é retornada como saída.</li>
+          <li>A captura de vídeo da webcam é inicializada usando <code>cv2.VideoCapture(0)</code>, onde o argumento 0 indica a câmera padrão.</li>
+          <li>O código entra em um loop infinito (<code>while True</code>) para capturar continuamente frames da câmera.</li>
+          <li>Dentro do loop, cada frame capturado é convertido para tons de cinza usando <code>cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)</code>.</li>
+          <li>A função <code>equalize_histogram</code> é chamada para equalizar o histograma do frame em tons de cinza.</li>
+          <li>As imagens original em tons de cinza e equalizada são exibidas em janelas separadas usando <code>cv2.imshow</code>.</li>
+          <li>O loop é interrompido se a tecla 'q' for pressionada.</li>
+          <li>Após a saída do loop, o código realiza algumas operações adicionais, como calcular o histograma antes e depois da equalização das imagens, salvar as imagens e plotar os histogramas.</li>
+          <li>Por fim, a captura de vídeo é liberada e as janelas são fechadas.</li>
+      </ol> 
+      <p>Na imagem abaixo podemos ver o filtro gaussiano aplicado à imagem da webcam de um dos integrantes da equipe.</p>
+    <div class="center-content">
+      <div class="imgs">
+        <img src="r4i3.png" alt="r4ex2">
+        <img src="r4i4.png" alt="r4ex2">
+      </div>
+    </div>
+    <p><strong>3-)Estudo da binarização. Desenvolva outro programa modificando o item (1), realizando a limiarização do tutorial pelo método simple.</strong></p>
+    <pre><code>import cv2
+
+      # Limiarização simples
+      def simple_thresholding(image):
+          _, thresholded_image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+          return thresholded_image
+      
+      # Limiarização adaptativa
+      def adaptive_thresholding(image):
+          thresholded_image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+          return thresholded_image
+      
+      # Limiarização de Otsu
+      def otsu_thresholding(image):
+          _, thresholded_image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+          return thresholded_image
+      
+      # Leitura da imagem
+      image_path = 'muriel.jpg'
+      image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+      
+      # Aplicação dos três tipos de limiarização
+      simple_thresholded = simple_thresholding(image)
+      adaptive_thresholded = adaptive_thresholding(image)
+      otsu_thresholded = otsu_thresholding(image)
+      
+      cv2.imwrite('simple_thresholded.jpg', simple_thresholded)
+      cv2.imwrite('adaptive_thresholded.jpg', adaptive_thresholded)
+      cv2.imwrite('otsu_thresholded.jpg', otsu_thresholded)
+      
+      # Exibição das imagens
+      cv2.imshow('Original', image)
+      cv2.imshow('Simple Thresholding', simple_thresholded)
+      cv2.imshow('Adaptive Thresholding', adaptive_thresholded)
+      cv2.imshow('Otsu Thresholding', otsu_thresholded)
+      
+      # Aguarda até que uma tecla seja pressionada para fechar as janelas
+      cv2.waitKey(0)
+      cv2.destroyAllWindows()
+      </code></pre>
+      <p>Este código demonstra diferentes métodos de limiarização em uma imagem utilizando a biblioteca OpenCV.</p>
+      <p>Aqui está uma explicação passo a passo do código:</p>
+      <ol>
+          <li>O código define três funções: <code>simple_thresholding</code>, <code>adaptive_thresholding</code> e <code>otsu_thresholding</code> para realizar diferentes tipos de limiarização em uma imagem.</li>
+          <li>A função <code>simple_thresholding</code> aplica uma limiarização simples na imagem utilizando <code>cv2.threshold</code>.</li>
+          <li>A função <code>adaptive_thresholding</code> aplica uma limiarização adaptativa na imagem utilizando <code>cv2.adaptiveThreshold</code>.</li>
+          <li>A função <code>otsu_thresholding</code> aplica uma limiarização de Otsu na imagem utilizando <code>cv2.threshold</code> com a flag <code>cv2.THRESH_OTSU</code>.</li>
+          <li>A imagem é lida usando <code>cv2.imread</code> e convertida para tons de cinza (<code>cv2.IMREAD_GRAYSCALE</code>).</li>
+          <li>Os três métodos de limiarização são aplicados na imagem original.</li>
+          <li>As imagens resultantes são salvas como arquivos: <code>simple_thresholded.jpg</code>, <code>adaptive_thresholded.jpg</code> e <code>otsu_thresholded.jpg</code>.</li>
+          <li>As imagens original e as imagens com limiarização são exibidas usando <code>cv2.imshow</code>.</li>
+          <li>As janelas permanecem abertas até que uma tecla seja pressionada, e em seguida, são fechadas usando <code>cv2.destroyAllWindows</code>.</li>
+      </ol>
+    <div class="center-content">
+      <div class="imgs">
+        <img src="r4i5.png" alt="r4ex5">
+        <img src="r4i6.png" alt="r4ex5">
+      </div>
+    </div>
+    <p><strong>(4) Estudo da equalização nas cores: Desenvolva outro programa modificando o item (1), porém sem converter para cinza, mas agora realizando a equalização nas três cores separadamente, e juntar os canais equalizados na imagem colorida de saída.</strong></p>
+    <pre><code>import cv2
+      import numpy as np
+      
+      # Equalização de histograma em cada canal de cor separadamente
+      def equalize_histogram(image):
+          equalized_image = image.copy()
+      
+          for i in range(3):
+              equalized_image[:, :, i] = cv2.equalizeHist(image[:, :, i])
+      
+          return equalized_image
+      
+      # Leitura da imagem
+      image_path = 'muriel.jpg'
+      image = cv2.imread(image_path)
+      
+      # Equalização de histograma nas três cores separadamente
+      equalized_image = equalize_histogram(image)
+      
+      # Salvar a imagem equalizada
+      cv2.imwrite('equalized_image.jpg', equalized_image)
+      
+      # Exibir a imagem original e a imagem equalizada
+      cv2.imshow('Original', image)
+      cv2.imshow('Equalized', equalized_image)
+      
+      # Aguarda até que uma tecla seja pressionada para fechar as janelas
+      cv2.waitKey(0)
+      cv2.destroyAllWindows()
+      </code></pre>
+      <p>Este código demonstra a equalização de histograma em cada canal de cor separadamente de uma imagem utilizando a biblioteca OpenCV.</p>
+      <p>Aqui está uma explicação passo a passo do código:</p>
+      <ol>
+          <li>O código define uma função chamada <code>equalize_histogram</code> para realizar a equalização de histograma em cada canal de cor separadamente.</li>
+          <li>A função <code>equalize_histogram</code> recebe uma imagem como entrada e cria uma cópia dela.</li>
+          <li>Em um loop, a função percorre os três canais de cor (R, G, B) e aplica a equalização de histograma usando <code>cv2.equalizeHist</code>.</li>
+          <li>A imagem equalizada é retornada como saída.</li>
+          <li>A imagem é lida usando <code>cv2.imread</code>.</li>
+          <li>A função <code>equalize_histogram</code> é chamada para equalizar o histograma da imagem em cada canal de cor separadamente.</li>
+          <li>A imagem equalizada é salva como arquivo <code>equalized_image.jpg</code>.</li>
+          <li>As imagens original e equalizada são exibidas usando <code>cv2.imshow</code>.</li>
+          <li>As janelas permanecem abertas até que uma tecla seja pressionada, e em seguida, são fechadas usando <code>cv2.destroyAllWindows</code>.</li>
+      </ol>
+    <div class="center-content">
+      <img src="r4i7.png" alt="r4ex4">
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
