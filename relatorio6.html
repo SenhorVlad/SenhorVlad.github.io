@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: rgb(0,90,60);
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .imgs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 400px;
+      margin: 10px;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
+        <span class="title">Processamento de Vídeo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Relatórios
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+              <li><a class="dropdown-item" href="relatorio1.html">Relatório 1</a></li>
+              <li><a class="dropdown-item" href="relatorio2.html">Relatório 2</a></li>
+              <li><a class="dropdown-item" href="relatorio3.html">Relatório 3</a></li>
+              <li><a class="dropdown-item" href="relatorio4.html">Relatório 4</a></li>
+              <li><a class="dropdown-item" href="relatorio5.html">Relatório 5</a></li>
+              <li><a class="dropdown-item" href="relatorio6.html">Relatório 6</a></li>
+              <li><a class="dropdown-item" href="relatorio7.html">Relatório 7</a></li>
+              <li><a class="dropdown-item" href="relatorio8.html">Relatório 8</a></li>
+              <li><a class="dropdown-item" href="relatorio9.html">Relatório 9</a></li>
+              <li><a class="dropdown-item" href="relatorio10.html">Relatório 10</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="projfinal.html">Projeto Final</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="integrantesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Integrantes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="integrantesDropdown">
+              <li><a class="dropdown-item" href="Fernando.html">Fernando Cezar Resende Lopes</a></li>
+              <li><a class="dropdown-item" href="Muriel.html">Muriel da Costa Santos</a></li>
+              <li><a class="dropdown-item" href="Vinicius.html">Vinicius de Souza</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <h1 class="text-center">Laboratório 6 – Features</h1>
+    <p><strong>(1)</strong> Desenvolva um programa para fazer a leitura de suas imagens
+      --utilize as imagens gravadas anteriormente, bem como imagens do seu trabalho de video.
+      
+      O programa deve realizar a deteção de Features pelos métodos dos exercícios.
+      Deve ainda salvar as imagens com identificação das Features em arquivo .</p>
+    <pre><code>import numpy as np
+      import cv2 as cv
+      
+      filename = 'fotoMedian.png'
+      
+      img = cv.imread(filename)
+      gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+      gray = np.float32(gray)
+      dst = cv.cornerHarris(gray,2,3,0.04)
+      
+      #result is dilated for marking the corners, not important
+      dst = cv.dilate(dst,None)
+      
+      # Threshold for an optimal value, it may vary depending on the image.
+      img[dst>0.01*dst.max()]=[0,0,255]
+      cv.imshow('dst',img)
+      cv.imwrite(filename,img)
+      if cv.waitKey(0) & 0xff == 27:
+       cv.destroyAllWindows()
+      </code></pre>
+    <p>Este código é uma aplicação simples de detecção de cantos (corner detection) utilizando a transformada de Harris em uma imagem. </p>
+    <p>O código detecta cantos na imagem usando a transformada de Harris e marca-os com a cor vermelha antes de exibir o resultado e salvar a imagem. Isso é útil para várias aplicações de visão computacional, como detecção de características em imagens, rastreamento de objetos, entre outros.</p>
+    <div class="center-content">
+        <img src="r6i1.png" alt="r6i1">
+    </div>
+    <p><p>
+    <pre><code>import numpy as np
+      import cv2 as cv
+      from matplotlib import pyplot as plt
+      
+      img = cv.imread('fotoMedian.png')
+      gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+      
+      corners = cv.goodFeaturesToTrack(gray,25,0.01,10)
+      corners = np.int0(corners)
+      
+      for i in corners:
+       x,y = i.ravel()
+       cv.circle(img,(x,y),3,255,-1)
+       
+      plt.imshow(img),plt.show()
+      cv.imwrite('shiTomasiCorner.jpg',img)
+      
+      </code></pre>
+      <p>o código detecta cantos na imagem usando o método Shi-Tomasi e marca-os com pequenos círculos brancos antes de exibir o resultado e salvar a imagem com os cantos detectados.</p>
+      <p> Esse método é útil para detecção de cantos significativos em imagens, amplamente usado em rastreamento de recursos e em várias aplicações de visão computacional.</p>
+    <div class="center-content">
+        <img src="r6i2.png" alt="r6i2">
+    </div>
+    <p><p>
+    <pre><code>import numpy as np
+      import cv2 as cv
+      
+      img = cv.imread('fotoMedian.png')
+      gray= cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+      
+      sift = cv.SIFT_create()
+      kp = sift.detect(gray,None)
+      
+      img=cv.drawKeypoints(gray,kp,img)
+      
+      cv.imwrite('sift_keypoints.jpg',img)
+      
+      </code></pre>
+      <p>O código usa o algoritmo SIFT para detectar keypoints significativos em uma imagem e, em seguida, desenha esses keypoints na imagem original antes de salvar a imagem resultante com os keypoints desenhados em um arquivo separado.</p>
+      <p>A detecção de keypoints é frequentemente usada para tarefas de correspondência de pontos-chave, reconhecimento de objetos e outras aplicações de visão computacional.</p>
+    <div class="center-content">
+        <img src="r6i3.png" alt="r6i3">
+    </div>
+    <p><strong>(2)</strong> Outro programa modificando o item (1), agora fazendo a leitura de imagem da webcam.
+      Neste caso, o programa deve adicionalmente mostrar uma janela ao vivo com a imagem e o resultado da imagem de rastreamento.
+      programa lab6d.py</p>
+    <pre><code>import numpy as np
+      import cv2 as cv
+      
+      cap = cv.VideoCapture(0)
+      
+      if not cap.isOpened():
+          print("Cannot open camera")
+          exit()
+          
+      while True:
+          # Capture frame-by-frame
+          ret, frame = cap.read()
+          ret, frame2 = cap.read()
+          # if frame is read correctly ret is True
+          if not ret:
+              print("Can't receive frame (stream end?). Exiting ...")
+              break
+          
+          gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+          gray = np.float32(gray)
+          dst = cv.cornerHarris(gray,2,3,0.04)
+          dst = cv.dilate(dst,None)
+      
+          frame[dst>0.01*dst.max()]=[0,0,255]
+          
+          # Display the resulting frame
+          cv.imshow('Corner', frame)
+          cv.imshow('Orignal', frame2)
+          
+          if cv.waitKey(1) == ord('q'):
+              break
+      
+      # When everything done, release the capture
+      cap.release()
+      cv.destroyAllWindows()      
+      </code></pre>
+      <p>Este código captura os frames em tempo real da câmera, detecta cantos usando a transformada de Harris em escala de cinza, marca os cantos detectados com a cor vermelha e exibe os frames resultantes em duas janelas separadas até que a tecla 'q' seja pressionada para sair.</p>
+    <div class="center-content">
+      <img src="r6i4.png" alt="r6i4">
+    </div>
+    <p><p>
+      <pre><code>import numpy as np
+        import cv2 as cv
+        
+        cap = cv.VideoCapture(0)
+        
+        if not cap.isOpened():
+            print("Cannot open camera")
+            exit()
+            
+        while True:
+            # Capture frame-by-frame
+            ret, frame = cap.read()
+            ret, frame2 = cap.read()
+            # if frame is read correctly ret is True
+            if not ret:
+                print("Can't receive frame (stream end?). Exiting ...")
+                break
+            gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+            corners = cv.goodFeaturesToTrack(gray,25,0.01,10)
+            corners = np.int0(corners)
+        
+            for i in corners:
+             x,y = i.ravel()
+             cv.circle(frame,(x,y),3,255,-1)
+            
+            # Display the resulting frame
+            cv.imshow('Corner', frame)
+            cv.imshow('Orignal', frame2)
+            
+            if cv.waitKey(1) == ord('q'):
+                break
+        
+        # When everything done, release the capture
+        cap.release()
+        cv.destroyAllWindows()          
+        </code></pre>
+        <p>Este código captura o vídeo em tempo real da câmera, detecta cantos em cada frame usando o método "goodFeaturesToTrack" e marca os cantos detectados com círculos vermelhos. Em seguida, exibe os frames com os cantos marcados em janelas separadas até que a tecla 'q' seja pressionada para encerrar o programa.</p>
+      <div class="center-content">
+        <img src="r6i5.png" alt="r6i5">
+      </div>
+      <p><p>
+        <pre><code>import numpy as np
+          import cv2 as cv
+          
+          cap = cv.VideoCapture(0)
+          
+          if not cap.isOpened():
+              print("Cannot open camera")
+              exit()
+              
+          while True:
+              # Capture frame-by-frame
+              ret, frame = cap.read()
+              ret, frame2 = cap.read()
+              # if frame is read correctly ret is True
+              if not ret:
+                  print("Can't receive frame (stream end?). Exiting ...")
+                  break
+              
+              gray= cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+          
+              sift = cv.SIFT_create()
+              kp = sift.detect(gray,None)
+          
+              frame=cv.drawKeypoints(gray,kp,frame)
+          
+          
+              
+              # Display the resulting frame
+              cv.imshow('Corner', frame)
+              cv.imshow('Orignal', frame2)
+              
+              if cv.waitKey(1) == ord('q'):
+                  break
+          
+          # When everything done, release the capture
+          cap.release()
+          cv.destroyAllWindows()          
+          </code></pre>
+          <p>Este  código captura o vídeo da câmera, detecta keypoints usando o algoritmo SIFT e exibe a imagem original com os keypoints desenhados em tempo real. O loop é encerrado quando a tecla 'q' é pressionada.</p>
+        <div class="center-content">
+          <img src="r6i6.png" alt="r6i6">
+        </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
