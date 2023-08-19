@@ -63,17 +63,20 @@
       max-width: 100%;
       max-height: 100%;
     }
-    .video {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 50%;
-      height: 400px;
-    }
-    .video video {
-      max-width: 100%;
-      max-height: 100%;
-    }
+
+    .fixed-sidebar {
+    position: fixed;
+    top: 20vh;
+    left: 0;
+    height: 100%;
+    overflow-y: auto; /* Para que, se o conteúdo da barra lateral for muito longo, o usuário possa rolar apenas a barra lateral */
+    width: 25%; /* Você pode ajustar isso de acordo com sua necessidade */
+    z-index: 1000; /* Garantindo que a barra lateral fique em cima de outros conteúdos */
+}
+
+.content-section {
+    margin-left: 25%; /* Isso compensa a largura da barra lateral */
+}
   </style>
 </head>
 <body>
@@ -101,8 +104,6 @@
               <li><a class="dropdown-item" href="relatorio6.html">Relatório 6</a></li>
               <li><a class="dropdown-item" href="relatorio7.html">Relatório 7</a></li>
               <li><a class="dropdown-item" href="relatorio8.html">Relatório 8</a></li>
-              <li><a class="dropdown-item" href="relatorio9.html">Relatório 9</a></li>
-              <li><a class="dropdown-item" href="relatorio10.html">Relatório 10</a></li>
             </ul>
           </li>
           <li class="nav-item">
@@ -125,7 +126,7 @@
   <p></p>
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 fixed-sidebar">
         <div class="list-group">
           <a class="list-group-item list-group-item-action topic" data-target="topic1Content" onclick="toggleContent(this)">Introdução</a>
           <a class="list-group-item list-group-item-action topic" data-target="topic2Content" onclick="toggleContent(this)">Materiais e métodos</a>
@@ -134,29 +135,343 @@
           <a class="list-group-item list-group-item-action topic" data-target="topic5Content" onclick="toggleContent(this)">Anexos</a>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8 content-section">
         <div id="topic1Content" class="d-none">
-          <h2>Introdução</h2>
-          <p>Content for Topic 1 goes here.</p>
+          <h1>Introdução</h1><p></p>
+    <p>O objetivo deste projeto é desenvolver um sistema utilizando OpenCV e Python para permitir que os usuários controlem programas de computador por meio de gestos. Essa aplicação visa proporcionar uma forma mais intuitiva e interativa de interagir com softwares, especialmente em situações em que o uso de dispositivos de entrada convencionais, como teclado e mouse, pode ser limitado ou incômodo.</p>
         </div>
         <div id="topic2Content" class="d-none">
-          <h2>Materiais e métodos</h2>
-          <p>Content for Topic 2 goes here.</p>
+          <h1>Materiais e métodos</h1><p></p>
+          <h3>Cenário de Aplicação (CA):</h3>
+          <p>O programa será capaz de capturar as imagens da câmera do computador em tempo real, usando técnicas de visão computacional fornecidas pela biblioteca OpenCV. Ele realizará o processamento dessas imagens para identificar gestos específicos realizados pelo usuário e convertê-los em comandos compreendidos pelos programas em execução.</p>
+          <p>As ações que poderão ser realizadas pelos gestos incluem, por exemplo:</p>
+          <ul>
+              <li>Movimentos de mão para controlar o cursor do mouse.</li>
+              <li>Gestos específicos para executar comandos, como abrir um aplicativo, fechar uma janela ou salvar um arquivo.</li>
+              <li>Gestos de pinça para fazer zoom in ou zoom out em aplicativos de visualização de imagens ou mapas.</li>
+          </ul>
+      
+          <h5>Interatividade do Usuário:</h5>
+          <p>Os usuários poderão interagir com o sistema por meio de gestos realizados na frente da câmera do computador. O programa detectará esses gestos e interpretará as ações correspondentes, proporcionando uma experiência de controle sem a necessidade de dispositivos físicos adicionais.</p>
+          <p>O sistema será projetado para ser intuitivo e fácil de usar, permitindo que os usuários controlem programas de computador de forma natural, sem a necessidade de aprender comandos complexos ou atalhos de teclado. Isso tornará a interação mais acessível a pessoas com diferentes níveis de habilidade e experiência com tecnologia.</p>
+      
+          <h5>Entrevistas sobre a Utilidade desta Aplicação:</h5>
+          <p><strong>Entrevista 1:</strong></p>
+          <p>Fernando Cezar Resende Lopes: "Você acha que o uso de gestos para controlar programas de computador pode ser útil?"</p>
+          <p>Entrevistado: "Com certeza! Acho que isso pode tornar a interação com o computador muito mais intuitiva. Seria ótimo poder controlar o cursor do mouse apenas movendo minha mão, especialmente em situações em que não tenho um mouse disponível. Além disso, acho que gestos específicos para executar comandos poderiam agilizar certas tarefas, como abrir aplicativos ou fechar janelas."</p>
+      
+          <p><strong>Entrevista 2:</strong></p>
+          <p>Muriel da Costa Santos: "Como você acha que o uso de gestos para controlar programas de computador pode beneficiar pessoas com dificuldades motoras?"</p>
+          <p>Entrevistado: "Acredito que essa aplicação pode ser extremamente útil para pessoas com dificuldades motoras. Muitas vezes, elas enfrentam desafios ao utilizar dispositivos convencionais, como teclado e mouse. Com a possibilidade de controlar programas por meio de gestos, elas teriam uma forma mais acessível e inclusiva de interagir com o computador. Isso poderia melhorar significativamente sua experiência e independência no uso de tecnologia."</p>
+      
+          <p><strong>Entrevista 3:</strong></p>
+          <p>Vinicius de Souza: "Você vê algum cenário específico em que o controle de programas por meio de gestos poderia ser vantajoso?"</p>
+          <p>Entrevistado: "Certamente! Uma situação em que isso seria particularmente útil é em apresentações. Imagine estar em uma reunião e poder passar os slides apenas com gestos de deslizamento, sem a necessidade de ficar próximo ao computador ou usar um controle remoto. Além disso, em ambientes de trabalho onde a higiene é uma preocupação, como laboratórios ou hospitais, a capacidade de controlar programas sem tocar em dispositivos físicos seria uma grande vantagem."</p>
+      
+          <h3>Modelagem Funcional do Sistema de Processamento Visual (MFS)</h3>
+      
+          <p>Para a elaboração da modelagem funcional do projeto, estipulamos os seguintes requisitos funcionais que são esperados na implementação da solução:</p>
+          <div class="center-content">
+            <img src="projfinaldb1.png" alt="projfinaldb1" style="max-height: 800px;">
+          </div>      
+          <h5>Requisitos Funcionais:</h5>
+          <ul>
+              <li>Captura de imagens em tempo real: O sistema deve ser capaz de capturar imagens da câmera do computador em tempo real para análise e processamento.</li>
+              <li>Identificação de gestos: O sistema deve realizar o processamento das imagens capturadas para identificar gestos específicos realizados pelo usuário.</li>
+              <li>Conversão de gestos em comandos: O sistema deve ser capaz de converter os gestos identificados em comandos compreendidos pelos programas em execução.</li>
+              <li>Controle do cursor do mouse: O sistema deve permitir o controle do cursor do mouse por meio de gestos de mão específicos.</li>
+              <li>Execução de comandos: O sistema deve ser capaz de executar comandos específicos, como abrir um aplicativo, fechar uma janela ou salvar um arquivo, por meio de gestos definidos.</li>
+              <li>Zoom in e zoom out: O sistema deve permitir o zoom in e zoom out em aplicativos de visualização de imagens ou mapas por meio de gestos de pinça.</li>
+              <li>Interação intuitiva: O sistema deve ser projetado de forma intuitiva e fácil de usar, permitindo que os usuários controlem programas de computador de forma natural, sem a necessidade de aprender comandos complexos ou atalhos de teclado.</li>
+              <li>Acessibilidade: O sistema deve ser acessível a pessoas com diferentes níveis de habilidade e experiência com tecnologia, garantindo que a interação seja inclusiva.</li>
+              <li>Integração com programas em execução: O sistema deve ser capaz de se comunicar com os programas em execução para enviar os comandos correspondentes aos gestos realizados.</li>
+          </ul><p></p>
+          <h2>Cronograma Efetivo</h2><p></p>
+          <div class="center-content">
+            <img src="projfinalcron.jpeg" alt="cron" style="max-width: 800px;">
+          </div>
+          <h2>Aplicação do SPV</h2>
+            <h5>Roteiro Experimental de Aplicação (REA)</h5>
+            <p><strong>Objetivo:</strong> Controlar uma apresentação de slides por gestos usando a webcam.</p>
+            <p><strong>Materiais necessários:</strong></p>
+            <ul>
+                <li>Computador com webcam.</li>
+                <li>Ambiente bem iluminado para melhores resultados.</li>
+                <li>Sistema de Processamento Visual (SPV) instalado e funcionando.</li>
+                <li>Conjunto de slides em uma pasta chamada "slide" no mesmo diretório que o script do SPV.</li>
+            </ul>
+            <p><strong>Procedimento:</strong></p>
+            <ol>
+                <li>Inicie o sistema executando o código fornecido. A webcam será ativada, e você verá uma janela com a
+                    imagem capturada pela câmera.</li>
+                <li>O sistema apresentará uma série de slides localizados na pasta "slide". Inicialmente, você verá o primeiro
+                    slide da apresentação em tela cheia.</li>
+                <li>Utilize a sua mão para realizar os gestos e controlar a apresentação:
+                    <ul>
+                        <li>Fechar a mão esquerda: Retroceder para o slide anterior.</li>
+                        <li>Fechar a mão direita: Avançar para o próximo slide.</li>
+                        <li>Levantar o dedo indicador: Iniciar ou pausar a apresentação.</li>
+                        <li>Levantar o dedo indicador e o dedo do meio: Iniciar ou pausar a apresentação com zoom no slide
+                            atual.</li>
+                        <li>Levantar o dedo indicador e o polegar: Iniciar ou pausar a apresentação com zoom out no slide
+                            atual.</li>
+                    </ul>
+                </li>
+                <li>Experimente os gestos acima e observe a mudança de slides e o controle da apresentação.</li>
+                <li>Experimente também adicionar anotações no slide atual:
+                    <ul>
+                        <li>Levante o dedo indicador e o dedo médio ao mesmo tempo.</li>
+                        <li>Faça um movimento de escrita na tela com o dedo indicador levantado. Isso criará anotações no
+                            slide.</li>
+                        <li>Repita o gesto para adicionar mais anotações no mesmo slide.</li>
+                        <li>Se desejar apagar as anotações, levante o dedo indicador e o polegar ao mesmo tempo.</li>
+                    </ul>
+                </li>
+                <li>Caso você erre alguma ação, repita o gesto com mais calma. O sistema pode ter dificuldades em reconhecer
+                    os gestos caso eles sejam feitos de forma muito rápida ou com pouca nitidez.</li>
+                <li>Ao final da apresentação, você pode utilizar novamente os gestos para retroceder ou avançar até o slide
+                    inicial e encerrar o sistema.</li>
+            </ol><p></p>
+            <h5>Video Tutorial</h5>
+            <p>Abaixo video demonstrativo da aplicação em funcionamento:</p>
+            <div>
+              <video src="pv_apresentacao_grupo_fvm.mp4" style="max-width: 40vw;"controls></video>
+              <p class="figcaption">Apresentação do Projeto - FVM</p>
+            </div>
+            <h2>Questionário Avaliativo (AQA)</h2>
+            <p>Por favor, responda as seguintes questões sobre sua experiência com o Sistema de Processamento Visual (SPV):</p>
+            <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdRQs01qX-qCG2GdYdfj4mkmFXj95_Xi3Ifwkv3ezUvN1letQ/viewform?usp=sf_link">Questionário</a></p>
+
+            <h2>Enquete Subjetiva de Opinião (ESO)</h2>
+            <ol>
+                <li>Escreva suas impressões gerais sobre o Sistema de Processamento Visual e sua experiência com o controle de
+                    slides por gestos:</li>
+                <textarea name="impressoes" rows="4" cols="50"></textarea>
+
+                <li>Avalie, em uma escala de 1 a 5, o nível de facilidade de uso do sistema (sendo 1 muito difícil e 5 muito
+                    fácil):
+                    <ul>
+                        <li><input type="radio" name="q2" value="1"> 1</li>
+                        <li><input type="radio" name="q2" value="2"> 2</li>
+                        <li><input type="radio" name="q2" value="3"> 3</li>
+                        <li><input type="radio" name="q2" value="4"> 4</li>
+                        <li><input type="radio" name="q2" value="5"> 5</li>
+                    </ul>
+                </li>
+
+                <li>Avalie, em uma escala de 1 a 5, a eficácia do sistema em reconhecer e responder aos seus gestos (sendo 1
+                    pouco eficaz e 5 muito eficaz):
+                    <ul>
+                        <li><input type="radio" name="q3" value="1"> 1</li>
+                        <li><input type="radio" name="q3" value="2"> 2</li>
+                        <li><input type="radio" name="q3" value="3"> 3</li>
+                        <li><input type="radio" name="q3" value="4"> 4</li>
+                        <li><input type="radio" name="q3" value="5"> 5</li>
+                    </ul>
+                </li>
+
+                <li>Sugira melhorias ou novas funcionalidades que poderiam ser adicionadas ao sistema:</li>
+                <textarea name="sugestoes" rows="4" cols="50"></textarea>
+            </ol>
+            <h2>Análise Técnica do Sistema</h2>
+
+            <h5>Contexto/Cenário:</h5>
+            <p>O projeto consiste em um sistema de controle de slides através do reconhecimento de gestos da mão. Com a ajuda da biblioteca <code>cvzone</code>, o código realiza o rastreamento da mão do usuário e interpreta gestos específicos para executar ações no slide, como avançar, retroceder, dar zoom e fazer anotações.</p>
+
+            <h5>Métricas Objetivas (numéricas) e Qualitativas:</h5>
+            <ul>
+                <li><strong>Resolução da câmera</strong>: 960x540 pixels. Uma resolução relativamente baixa, mas pode ser suficiente para detectar gestos em um ambiente bem iluminado.</li>
+                <li><strong>Tempo de resposta</strong>: O código roda em um loop contínuo com um atraso de 1ms, o que indica um tempo de resposta rápido. Porém, há um delay configurado para evitar múltiplas detecções do mesmo gesto, o que pode afetar a fluidez.</li>
+                <li><strong>Número máximo de mãos</strong>: Apenas uma mão é detectada por vez. Isso evita complicações e interpretações equivocadas de gestos.</li>
+                <li><strong>Gestos detectados</strong>:
+                    <ul>
+                        <li>Dedo indicador levantado: Move o slide para a esquerda.</li>
+                        <li>Dedo mindinho levantado: Move o slide para a direita.</li>
+                        <li>Indicador e médio levantados: Aproxima (zoom in).</li>
+                        <li>Indicador e mindinho levantados: Afasta (zoom out).</li>
+                        <li>Somente médio levantado: Desenha ou faz anotações.</li>
+                        <li>Médio, anelar e mindinho levantados: Apaga a última anotação.</li>
+                    </ul>
+                </li>
+                <li><strong>Qualidade de imagem</strong>: O código aplica vários filtros e técnicas para melhorar a qualidade da imagem capturada e, consequentemente, a precisão da detecção. Isso inclui a desfocagem, equalização de histograma e remoção de fundo.</li>
+            </ul>
+
+            <h5>Conclusões sobre as Análises Realizadas:</h5>
+            <p>O sistema de controle de slides por gestos apresenta uma ideia inovadora, utilizando técnicas de processamento de imagem e reconhecimento de gestos.</p>
+            <p>Porém, por se tratar de um projeto com um curto espaço de tempo, existem temas a serem aprimorados:</p>
+            <ol>
+                <li><strong>Resolução da Câmera</strong>: Poderia ser testado com resoluções maiores para avaliar se há uma melhora na precisão do reconhecimento.</li>
+                <li><strong>Feedback ao Usuário</strong>: O sistema poderia fornecer um feedback mais claro sobre a detecção dos gestos. Uma interface gráfica mais intuitiva, com ícones ou animações representando os gestos reconhecidos, seria uma boa adição.</li>
+                <li><strong>Expansão de Gestos</strong>: Mais gestos podem ser adicionados para maior controle do slide, como a rotação ou movimento em determinada direção com a mão.</li>
+                <li><strong>Métricas de Performance</strong>: Seria útil ter métricas de desempenho, como a taxa de sucesso na detecção de gestos e tempo médio de resposta, para avaliar a eficácia do sistema.</li>
+                <li><strong>Ambiente de Uso</strong>: É fundamental garantir que o sistema funcione bem em diferentes cenários e condições de iluminação.</li>
+            </ol>
+            <h2>Lista dos arquivos</h2>
+            <p>
+            <ol>
+                <li><strong>slide-controle-gesto.py</strong>: Código fonte do projeto, é o principal arquivo do trabalho.</li>
+                <li><strong>Diretório "slide"</strong>: Diretório onde contém as imagens utilizadas na apresentação do projeto. Importante manter o mesmo nome para funcionamento adequado da solução.</li>
+                <li><strong>instrucoes.txt</strong>: Arquivo de instruções para preparar o ambiente python para a execução do projeto.</li>
+                <li><strong>requirements_env.txt</strong>: Arquivo com todas as bibliotecas necessárias para o funcionamento da aplicação.</li>
+                </ol>
+            <p>
+            <h2>Análise dos Resultados do Teste de Campo TCS</h2>
+
+            <h5>Questões do Projeto</h5>
+            <ul>
+                <li>Qual o objetivo do projeto apresentado?</li>
+                <li>Qual membro do corpo é capturado pelo programa na identificação de movimentos?</li>
+                <li>Quais são os movimentos para Zoom in e Zoom out respectivamente?</li>
+                <li>Qual o principal assunto abordado em aula que foi usado nesse software?</li>
+                <li>Qual o público-alvo desse software?</li>
+                <li>Como o aplicativo detecta o gesto para avançar para o próximo slide na apresentação?</li>
+            </ul><p>
+            <h5>Resultado dos Participantes:</h5>
+            <table border="1">
+              <thead>
+                  <tr>
+                      <th>Nome</th>
+                      <th>Matrícula</th>
+                      <th>Respostas</th>
+                      <th>Nota</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Lucas Pereira de Medeiros</td>
+                      <td>11201922156</td>
+                      <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                      <td>10</td>
+                  </tr>
+                  <tr>
+                      <td>Adinan Alves</td>
+                      <td>11201920527</td>
+                      <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                      <td>10</td>
+                  </tr>
+                  <tr>
+                      <td>Cesar Teixeira</td>
+                      <td>11027815</td>
+                      <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                      <td>10</td>
+                  </tr>
+                  <tr>
+                      <td>Valerio</td>
+                      <td>1887809</td>
+                      <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                      <td>10</td>
+                  </tr>
+
+                  <tr>
+                    <td>Enzo Erbert</td>
+                    <td>11201920138</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Errado</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>Natália Satie</td>
+                    <td>11025613</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Giovanna Sousa Andrade</td>
+                    <td>11201811904</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Gabrielle Dutra</td>
+                    <td>11201920636</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Jarriv Alcantara de Oliveira Reginaldo</td>
+                    <td>1875333</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Mayara Maria Triveloni</td>
+                    <td>11201822543</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Erikson Jose Rebechi Silva</td>
+                    <td>11201920534</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>João Guilherme</td>
+                    <td>11201921872</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Felipe Barbosa Pereira</td>
+                    <td>11201810266</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Randre Ferreira Cardoso</td>
+                    <td>11201721482</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Certo, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Leopoldo Kenji Sugata Naves</td>
+                    <td>1120172202</td>
+                    <td>Questão 1: Certo, Questão 2: Certo, Questão 3:Certo, Questão 4 Errado, Questão 5: Certo, Questão 6: Certo</td>
+                    <td>8</td>
+                </tr>
+              </tbody>
+          </table><p></p>
+            <h5>Análise dos Resultados</h5>
+            <p>
+                No âmbito deste estudo, 16 participantes foram envolvidos na avaliação do software, resultando em uma amostra de 90 respostas. Dentro deste conjunto, apenas duas respostas apresentaram incorreções identificáveis. Após uma análise meticulosa das respostas em análise, a conclusão coletiva do grupo sugere uma probabilidade substancial de que os equívocos tenham emergido devido a confusão ou falta de atenção durante a interpretação das perguntas e respectivas alternativas. Esta inferência baseia-se no fato de que a totalidade dos participantes conseguiu interagir com o software sem encontrar obstáculos significativos. Observou-se um ínfimo percentual de 2% em termos de respostas incorretas, um fenômeno que, ademais, os primeiros insights apontam para não estar ligado a dificuldades de operacionalização ou compreensão do software em si.
+            </p>
+            <p>
+                Adicionalmente, destaca-se que a duração média dos testes realizados pelos usuários foi de aproximadamente 2 minutos. Embora os comandos empregados sejam caracterizados por sua simplicidade, observou-se que para otimização da memorização, uma experiência mais imersiva poderia ser vantajosa. Ainda que o número limitado de interações tenha impedido uma memorização completa dos comandos por parte dos usuários, a rápida familiarização ofertada pelo grupo de desenvolvedores permitiu uma interação autônoma e fluída com o software por parte dos usuários. Os resultados alcançados têm sido amplamente reconhecidos como um notável êxito por parte da equipe de desenvolvimento, tendo em vista os feedbacks positivos recebidos e as falhas identificadas e já devidamente abordadas. Este teste é considerado um sucesso ante a perspectiva de um desfecho positivo.
+            </p>
         </div>
         <div id="topic3Content" class="d-none">
-          <h2>Conclusões</h2>
-          <p>Content for Topic 3 goes here.</p>
+          <h2>Conclusão</h2>
+          <p>A partir da conclusão dos testes de campo, emergiu uma compreensão substancial do êxito do software. Apesar das limitações inerentes à sensibilidade, o projeto, impulsionado pelo seu baixo custo e acessibilidade, evidencia um potencial promissor. Especialmente em cenários que não demandam altos níveis de responsividade, os erros identificados são de magnitude insignificante, e os resultados obtidos revelam-se práticos e produtivos.</p>
+          <p>O emprego dos controles de movimento não apenas tem aplicações valiosas em apresentações e contextos educativos, mas também poderia beneficiar indivíduos com dificuldades motoras. Mediante ajustes pertinentes no software, esses inputs poderiam ser direcionados para comandos computacionais no dia a dia, abrangendo até mesmo jogos que não requerem altos níveis de velocidade e sensibilidade. Esta versatilidade potencial torna o software universalmente acessível, atendendo tanto a indivíduos com necessidades especiais quanto a professores e palestrantes.</p>
+          <p>Com a refinada abordagem, o software possui a capacidade de otimizar tarefas, mitigando esforços e introduzindo novas perspectivas de interação. Tendo em vista esse potencial, uma iteração mais profunda do projeto permitirá explorar novas dimensões de usabilidade, reforçando assim sua relevância e eficácia para uma audiência ampla e diversificada.</p>
         </div>
         <div id="topic4Content" class="d-none">
-          <h2>Referências Bibliográficas</h2>
-          <p>Content for Topic 4 goes here.</p>
+          <h2>Referências Bibliográficas</h2><p></p>
+          <p>
+            OPENCV-PYTHON. <i>OpenCV: Open Source Computer Vision Library</i>. 2023. Disponível em: <a href="https://github.com/opencv/opencv-python" target="_blank">https://github.com/opencv/opencv-python</a>. Acesso em: 05 de julho de 2023.
+            </p>
+            <p>
+              CVZONE. <i>Cvzone: Helper library for OpenCV functions and methods</i>. 2023. Disponível em: <a href="https://github.com/cvzone/cvzone" target="_blank">https://github.com/cvzone/cvzone</a>. Acesso em: 20 de julho de 2023.
+              </p>
+              <p>
+                ASSUNÇÃO, Herison. <i>Detecção de movimento com Python e OpenCV</i>. Medium, [s.l.], junho, 2023. Disponível em: <a href="https://herisonassuncao.medium.com/detec%C3%A7%C3%A3o-de-movimento-com-python-e-opencv-c7323e2980ed" target="_blank">https://herisonassuncao.medium.com/detec%C3%A7%C3%A3o-de-movimento-com-python-e-opencv-c7323e2980ed</a>. Acesso em: 30 de junho de 2023.
+                </p>
+                              
         </div>
         <div id="topic5Content" class="d-none">
-            <h2>Anexos</h2>
-            <p>Content for Topic 4 goes here.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+                <h1>Anexos</h1><p></p>
+                <p>Neste tópico, compartilhamos o código fonte do nosso projeto, que consiste na seguinte estrutura:</p>
+                <ol>
+                    <li><strong>slide-controle-gesto.py</strong>: Código fonte do projeto, é o principal arquivo do trabalho.</li>
+                    <li><strong>Diretório "slide"</strong>: Diretório onde contém as imagens utilizadas na apresentação do projeto. Importante manter o mesmo nome para funcionamento adequado da solução.</li>
+                    <li><strong>instrucoes.txt</strong>: Arquivo de instruções para preparar o ambiente python para a execução do projeto.</li>
+                    <li><strong>requirements_env.txt</strong>: Arquivo com todas as bibliotecas necessárias para o funcionamento da aplicação.</li>
+                <p>
+                   <a href="./proj_final_fvm.zip" target="_blank" download>Download dos arquivos do projeto</a>
+                  </p>         
+        </div>      
+      </div>       
+
+  </div></div>
+
 </body>
 </html>

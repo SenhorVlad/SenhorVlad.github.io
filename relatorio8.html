@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relatório</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    .navbar {
+      background-color: rgb(0,90,60);
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .imgs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .imgs img {
+      max-width: 100%;
+      max-height: 400px;
+      margin: 10px;
+    }
+    .video {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 400px;
+    }
+    .video video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ufabc_logo.png" alt="UFABC Logo" class="logo">
+        <span class="title">Processamento de Vídeo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Relatórios
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+              <li><a class="dropdown-item" href="relatorio1.html">Relatório 1</a></li>
+              <li><a class="dropdown-item" href="relatorio2.html">Relatório 2</a></li>
+              <li><a class="dropdown-item" href="relatorio3.html">Relatório 3</a></li>
+              <li><a class="dropdown-item" href="relatorio4.html">Relatório 4</a></li>
+              <li><a class="dropdown-item" href="relatorio5.html">Relatório 5</a></li>
+              <li><a class="dropdown-item" href="relatorio6.html">Relatório 6</a></li>
+              <li><a class="dropdown-item" href="relatorio7.html">Relatório 7</a></li>
+              <li><a class="dropdown-item" href="relatorio8.html">Relatório 8</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="projfinal.html">Projeto Final</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="integrantesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Integrantes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="integrantesDropdown">
+              <li><a class="dropdown-item" href="Fernando.html">Fernando Cezar Resende Lopes</a></li>
+              <li><a class="dropdown-item" href="Muriel.html">Muriel da Costa Santos</a></li>
+              <li><a class="dropdown-item" href="Vinicius.html">Vinicius de Souza</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container"><p></p>
+    <h1 class="text-center">Laboratório 8 – Rastreamento de Objetos</h1>
+    <p><strong>(1)</strong>Desenvolva programas para fazer a leitura dos videos com os membros da equipe.</p>
+      <p>--utilize também os videos do seu trabalho de video.</p>      
+      <p>O programa deve realizar o rastreamento de objetos com um dos métodos acima vistos, e com seleção manual de ROI, e apresentar na tela.</p>
+      <p>O programa também deve salvar os videos resultantes dos rastreamentos dos objetos.</p>
+    <pre><code> 
+import cv2
+
+# Create tracker
+tracker = cv2.TrackerKCF_create()
+videoSaida = 'videoRastreadoNoRealTime.avi'
+
+video = cv2.VideoCapture("nos.mp4") 
+
+
+largura = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+altura = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = video.get(cv2.CAP_PROP_FPS)
+codec = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter(videoSaida, codec, fps, (largura, altura))
+
+# Read video 
+
+# Exit if video not opened 
+if not video.isOpened():     
+     print("Could not open video")
+     sys.exit() 
+
+# Read first frame 
+ok,frame = video.read() 
+if not ok:
+     print("Cannot read video file")
+     sys.exit()
+
+# Leia mais algumas imagens para inicialização     
+ok,frame = video.read() 
+ok,frame = video.read() 
+ok,frame = video.read() 
+
+# Define a bounding box 
+#bbox = (276, 23, 86, 320) 
+# Uncomment the line below to select a different bounding box 
+bbox = cv2.selectROI(frame, False)
+	
+# Initialize tracker with first frame and bounding box 
+ok = tracker.init(frame,bbox)
+
+while True:
+    # Read a new frame
+    ok, frame = video.read()
+    if not ok:
+        break
+ 
+    # Start timer
+    timer = cv2.getTickCount()
+    print(timer)
+ 
+    # Update tracker
+    ok, bbox = tracker.update(frame)
+ 
+    # Calculate Frames per second (FPS)
+    fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
+ 
+    # Draw bounding box
+    if ok:
+        # Tracking success
+        p1 = (int(bbox[0]), int(bbox[1]))
+        p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
+        cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
+    else :
+        # Tracking failure
+        cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
+ 
+    # Display tracker type on frame
+    cv2.putText(frame, "KCF Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
+ 
+    # Display FPS on frame
+    cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
+ 
+    # Display result
+    cv2.imshow("Tracking", frame)
+    out.write(frame)
+    
+  
+    # Exit if ESC pressed
+    k = cv2.waitKey(1) & 0xff
+    if k == 27:
+        break
+        
+      </code></pre>
+      <p>O código utiliza a biblioteca OpenCV em Python para realizar o rastreamento de objetos em um vídeo ("nos.mp4"). Ele cria um rastreador KCF (Kernelized Correlation Filters) e define as configurações do vídeo de saída ("videoRastreadoNoRealTime.avi"). O programa entra em um loop infinito, onde cada frame do vídeo é lido e processado em tempo real.</p>
+      <p>Primeiro, o código lê o vídeo e verifica se foi possível abri-lo. Em seguida, lê algumas imagens adicionais para inicialização. O usuário pode selecionar uma região de interesse (bounding box) no primeiro frame do vídeo, que será rastreada ao longo do vídeo. O rastreador é inicializado com a região de interesse selecionada.</p>
+      <p>Dentro do loop, o código lê cada novo frame do vídeo, atualiza o rastreador com o novo frame e calcula a taxa de quadros por segundo (FPS). Em seguida, desenha um retângulo azul ao redor da região rastreada no frame atual. Se o rastreamento for bem-sucedido, o retângulo azul acompanhará o objeto de interesse.</p>
+      <p>Além disso, o código exibe o tipo de rastreador ("KCF Tracker") e o FPS atual no canto superior esquerdo do frame. O vídeo resultante com o rastreamento é salvo em "videoRastreadoNoRealTime.avi" e também é mostrado em uma janela chamada "Tracking". O loop continua até que a tecla "ESC" seja pressionada, momento em que o programa é encerrado e as janelas são fechadas.</p>
+      <div class="embed-responsive embed-responsive-16by9" style="display: flex; flex-direction: column; align-items: center;">
+        <video class="embed-responsive-item" src="r8v1.mp4" controls></video>
+        <p class="figcaption">Rastreamento de objetos - video gravado</p>
+      </div><p></p>
+    <pre><code>
+      import cv2
+
+      # Create tracker
+      tracker = cv2.TrackerKCF_create()
+      videoSaida = 'videoRastreado.avi'
+      
+      largura = 640
+      altura = 480
+      fps = 30.0
+      codec = cv2.VideoWriter_fourcc(*'XVID')
+      out = cv2.VideoWriter(videoSaida, codec, fps, (largura, altura))
+      
+      # Read video 
+      video = cv2.VideoCapture(0) 
+      
+      # Exit if video not opened 
+      if not video.isOpened():     
+           print("Could not open video")
+           sys.exit() 
+      
+      # Read first frame 
+      ok,frame = video.read() 
+      if not ok:
+           print("Cannot read video file")
+           sys.exit()
+      
+      # Leia mais algumas imagens para inicialização     
+      ok,frame = video.read() 
+      ok,frame = video.read() 
+      ok,frame = video.read() 
+      
+      # Define a bounding box 
+      #bbox = (276, 23, 86, 320) 
+      # Uncomment the line below to select a different bounding box 
+      bbox = cv2.selectROI(frame, False)
+        
+      # Initialize tracker with first frame and bounding box 
+      ok = tracker.init(frame,bbox)
+      
+      while True:
+          # Read a new frame
+          ok, frame = video.read()
+          if not ok:
+              break
+       
+          # Start timer
+          timer = cv2.getTickCount()
+       
+          # Update tracker
+          ok, bbox = tracker.update(frame)
+       
+          # Calculate Frames per second (FPS)
+          fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
+       
+          # Draw bounding box
+          if ok:
+              # Tracking success
+              p1 = (int(bbox[0]), int(bbox[1]))
+              p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
+              cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
+          else :
+              # Tracking failure
+              cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
+       
+          # Display tracker type on frame
+          cv2.putText(frame, "KCF Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
+       
+          # Display FPS on frame
+          cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
+       
+          # Display result
+          cv2.imshow("Tracking", frame)
+          out.write(frame)
+          
+        
+          # Exit if ESC pressed
+          k = cv2.waitKey(1) & 0xff
+          if k == 27:
+              break
+      </code></pre>
+    <p><strong>(2)</strong>Outro programa modificando o item (1), agora fazendo a leitura de imagem da webcam.</p>
+      <p>Neste caso, o programa deve adicionalmente mostrar uma janela ao vivo com a imagem e o resultado do rastreamento do objeto.</p>
+      <p>Salvar o video resultante.</p>
+    <pre><code>
+      import cv2
+
+      # Create tracker
+      tracker = cv2.TrackerKCF_create()
+      videoSaida = 'videoRastreadoNoRealTime.avi'
+      
+      video = cv2.VideoCapture("nos.mp4") 
+      
+      
+      largura = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+      altura = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+      fps = video.get(cv2.CAP_PROP_FPS)
+      codec = cv2.VideoWriter_fourcc(*'XVID')
+      out = cv2.VideoWriter(videoSaida, codec, fps, (largura, altura))
+      
+      # Read video 
+      
+      # Exit if video not opened 
+      if not video.isOpened():     
+           print("Could not open video")
+           sys.exit() 
+      
+      # Read first frame 
+      ok,frame = video.read() 
+      if not ok:
+           print("Cannot read video file")
+           sys.exit()
+      
+      # Leia mais algumas imagens para inicialização     
+      ok,frame = video.read() 
+      ok,frame = video.read() 
+      ok,frame = video.read() 
+      
+      # Define a bounding box 
+      #bbox = (276, 23, 86, 320) 
+      # Uncomment the line below to select a different bounding box 
+      bbox = cv2.selectROI(frame, False)
+        
+      # Initialize tracker with first frame and bounding box 
+      ok = tracker.init(frame,bbox)
+      
+      while True:
+          # Read a new frame
+          ok, frame = video.read()
+          if not ok:
+              break
+       
+          # Start timer
+          timer = cv2.getTickCount()
+          print(timer)
+       
+          # Update tracker
+          ok, bbox = tracker.update(frame)
+       
+          # Calculate Frames per second (FPS)
+          fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
+       
+          # Draw bounding box
+          if ok:
+              # Tracking success
+              p1 = (int(bbox[0]), int(bbox[1]))
+              p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
+              cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
+          else :
+              # Tracking failure
+              cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
+       
+          # Display tracker type on frame
+          cv2.putText(frame, "KCF Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
+       
+          # Display FPS on frame
+          cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
+       
+          # Display result
+          cv2.imshow("Tracking", frame)
+          out.write(frame)
+          
+        
+          # Exit if ESC pressed
+          k = cv2.waitKey(1) & 0xff
+          if k == 27:
+              break
+      
+      </code></pre>
+      <p>O código utiliza a biblioteca OpenCV em Python para realizar o rastreamento de objetos em um vídeo ("nos.mp4"). Ele cria um rastreador KCF (Kernelized Correlation Filters) e define as configurações do vídeo de saída ("videoRastreadoNoRealTime.avi"). O programa entra em um loop infinito, onde cada frame do vídeo é lido e processado em tempo real.</p>
+      <p>Primeiro, o código lê o vídeo e verifica se foi possível abri-lo. Em seguida, lê algumas imagens adicionais para inicialização. O usuário pode selecionar uma região de interesse (bounding box) no primeiro frame do vídeo, que será rastreada ao longo do vídeo. O rastreador é inicializado com a região de interesse selecionada.</p>
+      <p>Dentro do loop, o código lê cada novo frame do vídeo, atualiza o rastreador com o novo frame e calcula a taxa de quadros por segundo (FPS). Em seguida, desenha um retângulo azul ao redor da região rastreada no frame atual. Se o rastreamento for bem-sucedido, o retângulo azul acompanhará o objeto de interesse.</p>
+      <p>Além disso, o código exibe o tipo de rastreador ("KCF Tracker") e o FPS atual no canto superior esquerdo do frame. O vídeo resultante com o rastreamento é salvo em "videoRastreadoNoRealTime.avi" e também é mostrado em uma janela chamada "Tracking". O loop continua até que a tecla "ESC" seja pressionada, momento em que o programa é encerrado e as janelas são fechadas.</p>
+      <div class="embed-responsive embed-responsive-16by9" style="display: flex; flex-direction: column; align-items: center;">
+        <video class="embed-responsive-item" src="r8v2.mp4" controls></video>
+        <p class="figcaption">Rastreamento de obejtos - Webcam</p>
+      </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
